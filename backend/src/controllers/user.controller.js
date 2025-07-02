@@ -9,7 +9,7 @@ export async function getRecommendedUsers(req, res) {
     const recommendedUsers = await User.find({
       $and: [
         { _id: { $ne: currentUserId } }, // Exclude current user
-        { $id: { $nin: currentUser.friends } }, // Exclude friends of current user
+        { _id: { $nin: currentUser.friends } }, // Exclude friends of current user
         { isOnboarded: true }, // Only include users who have completed onboarding
       ],
     });
@@ -82,6 +82,9 @@ export async function sendFriendRequest(req, res) {
       sender: myId,
       recipient: recipientId,
     });
+
+    // Save the friend request to the database
+    await friendRequest.save();
 
     res.status(201).json({ message: "Friend request sent successfully." });
   } catch (error) {

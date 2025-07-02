@@ -18,7 +18,7 @@ dotenv.config(({
   credentials: true, // Allow credentials (cookies) to be sent with cross-origin requests
 }));
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors({
   origin: "http://localhost:5173",

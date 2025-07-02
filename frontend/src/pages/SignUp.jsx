@@ -1,9 +1,8 @@
 import React from "react";
 import { ShipWheel } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
-import { signup } from "../lib/api";
+import { useQueryClient } from "@tanstack/react-query";
+import useSignUp from "../hooks/useSignUp";
 
 const SignUp = () => {
   const [signupdata, setsignupdata] = React.useState({
@@ -18,21 +17,22 @@ const SignUp = () => {
   const navigate = useNavigate();
 
 
-  const {mutate, isPending, error} = useMutation({
-    mutationFn: signup,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      navigate("/");
-    },
-    onError: (error) => {
-      console.error("Signup error:", error);
-    },
-  });
-
+  // This is without using our custom hook
+  // const {mutate, isPending, error} = useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: (data) => {
+  //     queryClient.invalidateQueries({ queryKey: ["authUser"] });
+  //     navigate("/");
+  //   },
+  //   onError: (error) => {
+  //     console.error("Signup error:", error);
+  //   },
+  // });
+  const { signupMutation, isPending, error } = useSignUp();
   const handleSignup = (e) => {
     e.preventDefault();
-    if (signupdata.termsAndConditions) {
-      mutate(signupdata);
+    if (signupdata.termsAndConditions && typeof signupMutation === 'function') {
+      signupMutation(signupdata);
     }
   };
 
@@ -200,4 +200,5 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
 

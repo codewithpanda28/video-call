@@ -9,9 +9,9 @@ const FriendCard = ({ friend }) => {
         <div className="flex items-center gap-3 mb-3">
           <div className="avatar size-12">
             <img
-              src={friend.profilePicture || friend.profilePic}
+              src={friend.profilePicture || friend.profilePicture }
               alt={friend.fullName}
-              onError={e => { e.target.src = "https://via.placeholder.com/48"; }}
+              onError={e => { if (e.target.src !== "https://via.placeholder.com/48") e.target.src = "https://via.placeholder.com/48"; }}
             />
           </div>
           <h3 className="font-semibold truncate">{friend.fullName}</h3>

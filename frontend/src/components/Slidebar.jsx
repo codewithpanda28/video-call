@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { BellIcon, HomeIcon, MessageSquare } from "lucide-react";
 
-const Sidebar = () => {
+
+const Sidebar = ({ friendRequestCount = 0 }) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -11,9 +12,11 @@ const Sidebar = () => {
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
       <div className="p-5 border-b border-base-300">
         <Link to="/" className="flex items-center gap-2.5">
-          <ShipWheelIcon className="size-9 text-primary" />
+          <MessageSquare className="size-9 text-primary " />
           <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-            Streamify
+          <abbr title="Face to Face Chat & Video Call">
+          F2F-Chat
+          </abbr> 
           </span>
         </Link>
       </div>
@@ -29,7 +32,24 @@ const Sidebar = () => {
           <span>Home</span>
         </Link>
 
+        
+
         <Link
+          to="/notifications"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case relative ${
+            currentPath === "/notifications" ? "btn-active" : ""
+          }`}
+        >
+          <BellIcon className="size-5 text-base-content opacity-70" />
+          <span>Notifications</span>
+          {friendRequestCount > 0 && (
+            <span className="absolute top-1 right-3 bg-error text-white text-xs rounded-full px-1.5 py-0.5 min-w-[1.2em] flex items-center justify-center">
+              {friendRequestCount}
+            </span>
+          )}
+        </Link>
+
+        {/* <Link
           to="/friends"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/friends" ? "btn-active" : ""
@@ -37,17 +57,7 @@ const Sidebar = () => {
         >
           <UsersIcon className="size-5 text-base-content opacity-70" />
           <span>Friends</span>
-        </Link>
-
-        <Link
-          to="/notifications"
-          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/notifications" ? "btn-active" : ""
-          }`}
-        >
-          <BellIcon className="size-5 text-base-content opacity-70" />
-          <span>Notifications</span>
-        </Link>
+        </Link> */}
       </nav>
 
       {/* USER PROFILE SECTION */}

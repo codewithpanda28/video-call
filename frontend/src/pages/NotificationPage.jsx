@@ -45,11 +45,11 @@ const NotificationPage = () => {
           <div key={request._id} className="card bg-base-200">
             <div className="card-body">
               <div className="flex items-center gap-4">
-                <div className="avatar">
+                <div className="avatar w-12">
                   <img
                     src={request.sender.profilePicture}
                     alt={request.sender.fullName}
-                    className="size-12 rounded-full"
+                    className="w-12 h-12 rounded-full"
                   />
                 </div>
                 <div>

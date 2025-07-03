@@ -11,6 +11,9 @@ import useAuthUser from "./hooks/useAuthUser";
 import Layout from "./components/Layout";
 import { useThemeStore } from "./store/useThemeStore";
 import SignUp from "./pages/SignUp";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getFriendRequests } from "./lib/api";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -18,6 +21,19 @@ const App = () => {
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
+
+  // Fetch friend requests for badge
+  const { data: friendRequests = { incomingRequests: [] } } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+    enabled: Boolean(authUser),
+  });
+
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+  }, [theme]);
 
   if (isLoading) return <PageLoader />;
 
@@ -28,7 +44,7 @@ const App = () => {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <Layout showSidebar={true}>
+              <Layout showSidebar={true} friendRequestCount={friendRequests.incomingRequests.length}>
                 <HomePage />
               </Layout>
             ) : (
@@ -52,7 +68,7 @@ const App = () => {
           path="/notifications"
           element={
             isAuthenticated && isOnboarded ? (
-              <Layout showSidebar={true}>
+              <Layout showSidebar={true} friendRequestCount={friendRequests.incomingRequests.length}>
                 <NotificationsPage />
               </Layout>
             ) : (
@@ -61,7 +77,7 @@ const App = () => {
           }
         />
         <Route
-          path="/call"
+          path="/call/:id"
           element={
             isAuthenticated && isOnboarded ? (
               <CallPage />
@@ -75,7 +91,7 @@ const App = () => {
           path="/chat/:id"
           element={
             isAuthenticated && isOnboarded ? (
-              <Layout showSidebar={false}>
+              <Layout showSidebar={false} friendRequestCount={friendRequests.incomingRequests.length}>
                 <ChatPage />
               </Layout>
             ) : (
@@ -84,7 +100,7 @@ const App = () => {
           }
         />
 
-        <Route
+           <Route
           path="/onboarding"
           element={
             isAuthenticated ? (

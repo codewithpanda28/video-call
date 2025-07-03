@@ -4,8 +4,7 @@ import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 
-
-const Navbar = () => {
+const Navbar = ({ friendRequestCount = 0 }) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
@@ -21,14 +20,14 @@ const Navbar = () => {
   return (
     <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-30 h-16 flex items-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-end w-full">
+        <div className="flex items-center justify-end w-full gap-2">
           {/* LOGO - ONLY IN THE CHAT PAGE */}
           {isChatPage && (
             <div className="pl-5">
               <Link to="/" className="flex items-center gap-2.5">
-                <ShipWheelIcon className="size-9 text-primary" />
+                <ShipWheelIcon className="size-9 text-primary " />
                 <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-                  Streamify
+                  F2F-ChatApp
                 </span>
               </Link>
             </div>
@@ -36,8 +35,13 @@ const Navbar = () => {
 
           <div className="flex items-center gap-3 sm:gap-4 ml-auto">
             <Link to={"/notifications"}>
-              <button className="btn btn-ghost btn-circle">
+              <button className="btn btn-ghost btn-circle relative">
                 <BellIcon className="h-6 w-6 text-base-content opacity-70" />
+                {friendRequestCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-error text-white text-xs rounded-full px-1.5 py-0.5 min-w-[1.2em] flex items-center justify-center">
+                    {friendRequestCount}
+                  </span>
+                )}
               </button>
             </Link>
           </div>

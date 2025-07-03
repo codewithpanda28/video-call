@@ -15,7 +15,7 @@ import { capitialize } from "../lib/utils";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
 
-const HomePage = () => {
+const HomePage = ({ friendRequestCount = 0 }) => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
@@ -61,9 +61,14 @@ const HomePage = () => {
       <div className="container mx-auto space-y-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Your Friends</h2>
-          <Link to="/notifications" className="btn btn-outline btn-sm">
+          <Link to="/notifications" className="btn btn-outline btn-sm relative">
             <UsersIcon className="mr-2 size-4" />
             Friend Requests
+            {friendRequestCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-error text-white text-xs rounded-full px-1.5 py-0.5 min-w-[1.2em] flex items-center justify-center">
+                {friendRequestCount}
+              </span>
+            )}
           </Link>
         </div>
 

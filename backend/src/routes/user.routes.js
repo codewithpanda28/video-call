@@ -23,4 +23,3 @@ router.get("/friend-requests", getFriendRequests);
 router.get("/outgoing-friend-requests", getOutgoingFriendRequests);
 
 export default router;
-

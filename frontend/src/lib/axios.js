@@ -8,3 +8,4 @@ export const axiosInstance = axios.create({
     },
     timeout: 10000, // Set a timeout of 10 seconds
 })
+

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: 'http://localhost:5000/api', // <-- Make sure this matches your backend!
     withCredentials: true, // if you use cookies/auth
     headers: {
         'Content-Type': 'application/json',

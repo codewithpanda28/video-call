@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://video-call-ibe5.onrender.com/api', // <-- Updated to your Render deployment!
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true, // if you use cookies/auth
     headers: {
         'Content-Type': 'application/json',

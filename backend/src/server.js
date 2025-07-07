@@ -21,7 +21,10 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+    "http://localhost:5173", // for local dev
+    "https://aesthetic-bienenstitch-0159e7.netlify.app/" // for production
+  ],
   credentials: true
 }));
 app.use(express.json());
